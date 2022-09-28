@@ -71,26 +71,26 @@ export class DiffChecker {
   checkIfTestCoverageShouldIncrease(minimum: number, delta: number): boolean {
     const file = 'total'
     const diffCoverageData = this.diffCoverageReport[file]
-    const keys: ('lines' | 'statements' | 'functions')[] = <
-      ('lines' | 'statements' | 'functions')[]
-    >Object.keys(diffCoverageData).filter(key =>
-      ['lines', 'statements', 'functions'].includes(key)
-    )
-    for (const key of keys) {
+    const keys: ('lines' | 'statements' | 'branches' | 'functions')[] = <
+      ('lines' | 'statements' | 'branches' | 'functions')[]
+    >Object.keys(diffCoverageData)
+    const keyResults = keys.map(key => {
       const oldPct = diffCoverageData[key].oldPct ?? 0
       const newPct = diffCoverageData[key].newPct ?? 0
       if (newPct < minimum) {
         const diff = this.getPercentageDiff(diffCoverageData[key])
         const minDelta = Math.min(delta, minimum - oldPct)
-        if (diff < minDelta) {
+        const res = diff < minDelta
+        if (res) {
           core.info(
             `percentage Diff: ${diff}% is less than the required increase of ${minDelta}% until ${minimum}%`
           )
-          return true
         }
+        return res
       }
-    }
-    return false
+      return false
+    })
+    return keyResults.every(v => v)
   }
 
   checkIfTestCoverageFallsBelowDelta(

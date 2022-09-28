@@ -6804,23 +6804,25 @@ class DiffChecker {
         return returnStrings;
     }
     checkIfTestCoverageShouldIncrease(minimum, delta) {
-        var _a, _b;
         const file = 'total';
         const diffCoverageData = this.diffCoverageReport[file];
-        const keys = Object.keys(diffCoverageData).filter(key => ['lines', 'statements', 'functions'].includes(key));
-        for (const key of keys) {
+        const keys = Object.keys(diffCoverageData);
+        const keyResults = keys.map(key => {
+            var _a, _b;
             const oldPct = (_a = diffCoverageData[key].oldPct) !== null && _a !== void 0 ? _a : 0;
             const newPct = (_b = diffCoverageData[key].newPct) !== null && _b !== void 0 ? _b : 0;
             if (newPct < minimum) {
                 const diff = this.getPercentageDiff(diffCoverageData[key]);
                 const minDelta = Math.min(delta, minimum - oldPct);
-                if (diff < minDelta) {
+                const res = diff < minDelta;
+                if (res) {
                     core.info(`percentage Diff: ${diff}% is less than the required increase of ${minDelta}% until ${minimum}%`);
-                    return true;
                 }
+                return res;
             }
-        }
-        return false;
+            return false;
+        });
+        return keyResults.every(v => v);
     }
     checkIfTestCoverageFallsBelowDelta(delta, totalDelta) {
         const files = Object.keys(this.diffCoverageReport);
