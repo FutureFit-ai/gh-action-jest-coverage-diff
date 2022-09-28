@@ -81,7 +81,7 @@ export class DiffChecker {
         const diff = this.getPercentageDiff(diffCoverageData[key])
         const minDelta = Math.min(delta, minimum - oldPct)
         core.info(
-          `value of diff ${diff}% | value of minDelta ${minDelta}% | value of oldPct ${oldPct} | value of newPct ${newPct} | value of minimum ${minimum}%`
+          `value of diffCoverageData ${diffCoverageData} | value of diff ${diff}% | value of minDelta ${minDelta}% | value of oldPct ${oldPct} | value of newPct ${newPct} | value of minimum ${minimum}%`
         )
         if (diff < minDelta) {
           core.info(
