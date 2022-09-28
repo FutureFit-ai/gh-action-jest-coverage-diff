@@ -1,0 +1,37 @@
+name: 'Increase_coverage_jest'
+description: 'A github action to comment jest coverage diff on a PR based on Jest Coverage Diff'
+author: 'PJesus'
+inputs:
+  accessToken:
+    description: 'access token required to comment on a pr'
+    default: ${{ github.token }}
+  fullCoverageDiff:
+    description: 'get the full coverage with diff or only the diff'
+    default: false
+  runCommand:
+    description: 'custom command to get json-summary'
+    default: 'npx jest --coverage --coverageReporters="json-summary" --coverageDirectory="./"'
+  afterSwitchCommand:
+    description: 'command to run after switching to default branch'
+    default: null
+  delta:
+    description: 'Difference between the old and final test coverage'
+    default: 100
+  total_delta:
+    description: 'Difference between the old and final test coverage at the total level'
+    default: null
+  minCoverage:
+    description: 'Coverage percentage until which minIncrease is required'
+    default: 50
+  minIncrease:
+    description: 'Minimum required coverage increase (until minCoverage is reached)'
+    default: 5
+  useSameComment:
+    description: 'While commenting on the PR update the exisiting comment'
+    default: false
+branding:
+  color: red
+  icon: git-pull-request
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
