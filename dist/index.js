@@ -6807,14 +6807,13 @@ class DiffChecker {
         var _a, _b;
         const file = 'total';
         const diffCoverageData = this.diffCoverageReport[file];
-        const keys = Object.keys(diffCoverageData);
+        const keys = Object.keys(diffCoverageData).filter(key => ['lines', 'statements', 'functions'].includes(key));
         for (const key of keys) {
             const oldPct = (_a = diffCoverageData[key].oldPct) !== null && _a !== void 0 ? _a : 0;
             const newPct = (_b = diffCoverageData[key].newPct) !== null && _b !== void 0 ? _b : 0;
             if (newPct < minimum) {
                 const diff = this.getPercentageDiff(diffCoverageData[key]);
                 const minDelta = Math.min(delta, minimum - oldPct);
-                core.info(`value of diffCoverageData ${diffCoverageData} | value of diff ${diff}% | value of minDelta ${minDelta}% | value of oldPct ${oldPct} | value of newPct ${newPct} | value of minimum ${minimum}%`);
                 if (diff < minDelta) {
                     core.info(`percentage Diff: ${diff}% is less than the required increase of ${minDelta}% until ${minimum}%`);
                     return true;

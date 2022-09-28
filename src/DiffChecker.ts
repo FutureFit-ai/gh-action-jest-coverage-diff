@@ -73,16 +73,15 @@ export class DiffChecker {
     const diffCoverageData = this.diffCoverageReport[file]
     const keys: ('lines' | 'statements' | 'functions')[] = <
       ('lines' | 'statements' | 'functions')[]
-    >Object.keys(diffCoverageData)
+    >Object.keys(diffCoverageData).filter(key =>
+      ['lines', 'statements', 'functions'].includes(key)
+    )
     for (const key of keys) {
       const oldPct = diffCoverageData[key].oldPct ?? 0
       const newPct = diffCoverageData[key].newPct ?? 0
       if (newPct < minimum) {
         const diff = this.getPercentageDiff(diffCoverageData[key])
         const minDelta = Math.min(delta, minimum - oldPct)
-        core.info(
-          `value of diffCoverageData ${diffCoverageData} | value of diff ${diff}% | value of minDelta ${minDelta}% | value of oldPct ${oldPct} | value of newPct ${newPct} | value of minimum ${minimum}%`
-        )
         if (diff < minDelta) {
           core.info(
             `percentage Diff: ${diff}% is less than the required increase of ${minDelta}% until ${minimum}%`
