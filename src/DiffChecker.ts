@@ -83,7 +83,7 @@ export class DiffChecker {
         const res = diff < minDelta
         if (res) {
           core.info(
-            `percentage Diff: ${diff}% is less than the required increase of ${minDelta}% until ${minimum}%`
+            `Warning - percentage Diff for ${diffCoverageData[key]}: is ${diff}% less than the required increase of ${minDelta}%`
           )
         }
         return res
