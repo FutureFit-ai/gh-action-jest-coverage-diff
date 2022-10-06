@@ -1,0 +1,5 @@
+# These owners will be the default owners for everything in
+# the repo and can teach others about this repository.
+# Unless a later match takes precedence @owner1, @owner2 
+# will be requested for review when someone opens a pull request.
+* @TalLannder
