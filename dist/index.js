@@ -6833,15 +6833,13 @@ class DiffChecker {
                 // since the file is deleted don't include in delta calculation
                 continue;
             }
-            for (const key of keys) {
-                if (diffCoverageData[key].oldPct !== diffCoverageData[key].newPct) {
-                    const deltaToCompareWith = file === 'total' && totalDelta !== null ? totalDelta : delta;
-                    if (-this.getPercentageDiff(diffCoverageData[key]) > deltaToCompareWith) {
-                        const percentageDiff = this.getPercentageDiff(diffCoverageData[key]);
-                        core.info(`percentage Diff: ${percentageDiff} is greater than delta for ${file}`);
-                        return true;
-                    }
-                }
+            if (diffCoverageData['lines'].oldPct !== diffCoverageData['lines'].newPct) {
+              const deltaToCompareWith = file === 'total' && totalDelta !== null ? totalDelta : delta;
+              if (-this.getPercentageDiff(diffCoverageData['lines']) > deltaToCompareWith) {
+                const percentageDiff = this.getPercentageDiff(diffCoverageData['lines']);
+                core.info(`percentage Diff: ${percentageDiff} is greater than delta for ${file}`);
+                return true;
+              }
             }
         }
         return false;
