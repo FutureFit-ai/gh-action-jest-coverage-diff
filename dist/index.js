@@ -6833,7 +6833,6 @@ class DiffChecker {
                 // since the file is deleted don't include in delta calculation
                 continue;
             }
-            console.log(keys)
             if (diffCoverageData['lines'].oldPct !== diffCoverageData['lines'].newPct) {
               const deltaToCompareWith = file === 'total' && totalDelta !== null ? totalDelta : delta;
               if (-this.getPercentageDiff(diffCoverageData['lines']) > deltaToCompareWith) {
