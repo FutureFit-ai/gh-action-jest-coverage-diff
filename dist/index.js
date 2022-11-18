@@ -2084,7 +2084,7 @@ function run() {
                 if (useSameComment) {
                     commentId = yield findComment(githubClient, repoName, repoOwner, prNumber, deltaCommentIdentifier);
                 }
-                messageToPost = `Current PR does meet the required coverage increase of ${minIncrease}% and the repository has not reached a minimum of ${minCoverage}% of total coverage`;
+                messageToPost = `Current PR doesn't meet the required coverage increase of ${minIncrease}% and the repository has not reached a minimum of ${minCoverage}% of total coverage`;
                 messageToPost = `${deltaCommentIdentifier}\nCommit SHA:${commitSha}\n${messageToPost}`;
                 yield createOrUpdateComment(commentId, githubClient, repoOwner, repoName, messageToPost, prNumber);
                 throw Error(messageToPost);

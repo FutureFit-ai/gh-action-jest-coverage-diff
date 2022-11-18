@@ -100,7 +100,7 @@ async function run(): Promise<void> {
           deltaCommentIdentifier
         )
       }
-      messageToPost = `Current PR does meet the required coverage increase of ${minIncrease}% and the repository has not reached a minimum of ${minCoverage}% of total coverage`
+      messageToPost = `Current PR doesn't meet the required coverage increase of ${minIncrease}% and the repository has not reached a minimum of ${minCoverage}% of total coverage`
       messageToPost = `${deltaCommentIdentifier}\nCommit SHA:${commitSha}\n${messageToPost}`
       await createOrUpdateComment(
         commentId,
