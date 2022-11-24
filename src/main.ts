@@ -50,9 +50,11 @@ async function run(): Promise<void> {
     )
     if (!validateReport(codeCoverageNew)) {
       console.log('not a valid code coverage report from PR branch')
+      throw Error('not a valid code coverage report from PR branch')
     }
     if (!validateReport(codeCoverageOld)) {
       console.log('not a valid code coverage report from base branch')
+      throw Error('not a valid code coverage report from base branch')
     }
     const currentDirectory = execSync('pwd')
       .toString()
@@ -162,9 +164,9 @@ function validateReport(report: CoverageReport): boolean {
     console.log(isNaN(type.covered))
     console.log(isNaN(type.skipped))
     console.log(isNaN(type.pct))
-    for (const value of type.values) {
-      if (isNaN(value)) {
-        console.log(`The value of ${value} is not a number`)
+    for (const key of type.keys) {
+      if (isNaN(key.value)) {
+        console.log(`The value of ${key.value} is not a number`)
         return false
       }
     }
