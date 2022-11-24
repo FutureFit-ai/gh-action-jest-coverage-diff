@@ -160,6 +160,12 @@ function validateReport(report: CoverageReport): boolean {
   >Object.keys(report.total)
 
   console.log(keys)
+  for (const key of keys) {
+    console.log(report.total[key])
+    // if (report.total[key]) {
+    //   return 1
+    // }
+  }
   // for (const v of Object.keys(report.total)) {
   //   console.log(v)
   //   console.log(report.total[v])
