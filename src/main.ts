@@ -28,6 +28,7 @@ async function run(): Promise<void> {
     const useSameComment = JSON.parse(core.getInput('useSameComment'))
     const commentIdentifier = `<!-- codeCoverageDiffComment -->`
     const deltaCommentIdentifier = `<!-- codeCoverageDeltaComment -->`
+    console.log('main start')
     let totalDelta = null
     if (rawTotalDelta !== null) {
       totalDelta = Number(rawTotalDelta)
@@ -47,6 +48,11 @@ async function run(): Promise<void> {
     const codeCoverageOld = <CoverageReport>(
       JSON.parse(fs.readFileSync('coverage-summary.json').toString())
     )
+    console.log('main start')
+    console.log('codeCoverageNew')
+    console.log(codeCoverageNew)
+    console.log('codeCoverageOld')
+    console.log(codeCoverageOld)
     const currentDirectory = execSync('pwd')
       .toString()
       .trim()

@@ -72,9 +72,7 @@ export class DiffChecker {
     const file = 'total'
     const diffCoverageData = this.diffCoverageReport[file]
     console.log(this.diffCoverageReport)
-    const keys: ('lines')[] = <
-      ('lines')[]
-    >Object.keys(diffCoverageData)
+    const keys: 'lines'[] = <'lines'[]>Object.keys(diffCoverageData)
     const keyResults = keys.map(key => {
       const oldPct = diffCoverageData[key].oldPct ?? 0
       const newPct = diffCoverageData[key].newPct ?? 0

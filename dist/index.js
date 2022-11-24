@@ -2043,6 +2043,7 @@ function run() {
             const useSameComment = JSON.parse(core.getInput('useSameComment'));
             const commentIdentifier = `<!-- codeCoverageDiffComment -->`;
             const deltaCommentIdentifier = `<!-- codeCoverageDeltaComment -->`;
+            console.log('main start');
             let totalDelta = null;
             if (rawTotalDelta !== null) {
                 totalDelta = Number(rawTotalDelta);
@@ -2058,6 +2059,11 @@ function run() {
             }
             child_process_1.execSync(commandToRun);
             const codeCoverageOld = (JSON.parse(fs_1.default.readFileSync('coverage-summary.json').toString()));
+            console.log('main start');
+            console.log('codeCoverageNew');
+            console.log(codeCoverageNew);
+            console.log('codeCoverageOld');
+            console.log(codeCoverageOld);
             const currentDirectory = child_process_1.execSync('pwd')
                 .toString()
                 .trim();
