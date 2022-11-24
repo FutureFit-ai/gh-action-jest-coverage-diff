@@ -2118,9 +2118,12 @@ function validateReport(report) {
     console.log('report');
     console.log(report);
     console.log(report.total);
-    for (const v in report.total) {
-        console.log(v);
-    }
+    const keys = Object.keys(report.total);
+    console.log(keys);
+    // for (const v of Object.keys(report.total)) {
+    //   console.log(v)
+    //   console.log(report.total[v])
+    // }
     // const types = Object.values(report.total) as { total: number, covered: number, skipped: number, pct: (number | string)}[]
     // const types: string[] = new Array(
     //   'lines',
