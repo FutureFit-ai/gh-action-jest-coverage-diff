@@ -2122,9 +2122,9 @@ function validateReport(report) {
     console.log(keys);
     for (const key of keys) {
         console.log(report.total[key]);
-        // if (report.total[key]) {
-        //   return 1
-        // }
+        for (const coverage in report.total[key]) {
+            console.log(coverage);
+        }
     }
     // for (const v of Object.keys(report.total)) {
     //   console.log(v)

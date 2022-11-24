@@ -158,13 +158,13 @@ function validateReport(report: CoverageReport): boolean {
   const keys: ('lines' | 'statements' | 'branches' | 'functions')[] = <
     ('lines' | 'statements' | 'branches' | 'functions')[]
   >Object.keys(report.total)
-
   console.log(keys)
+
   for (const key of keys) {
     console.log(report.total[key])
-    // if (report.total[key]) {
-    //   return 1
-    // }
+    for (const coverage in report.total[key]) {
+      console.log(coverage)
+    }
   }
   // for (const v of Object.keys(report.total)) {
   //   console.log(v)
