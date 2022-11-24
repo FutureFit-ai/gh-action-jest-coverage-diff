@@ -157,20 +157,21 @@ function validateReport(report: CoverageReport): boolean {
   // const types = Object.values(report.total) as { total: number, covered: number, skipped: number, pct: (number | string)}[]
 
   const types = Object.values(report.total)
+  console.log(types)
 
-  for (const type of types) {
-    console.log(type)
-    console.log(isNaN(type.total))
-    console.log(isNaN(type.covered))
-    console.log(isNaN(type.skipped))
-    console.log(isNaN(type.pct))
-    for (const key of type.keys) {
-      if (isNaN(key.value)) {
-        console.log(`The value of ${key.value} is not a number`)
-        return false
-      }
-    }
-  }
+  // for (const type of Object.keys(types)) {
+  //   console.log(type)
+  //   console.log(isNaN(types[type]))
+  //   console.log(isNaN(type.covered))
+  //   console.log(isNaN(type.skipped))
+  //   console.log(isNaN(type.pct))
+  //   for (const key of type.keys) {
+  //     if (isNaN(key.value)) {
+  //       console.log(`The value of ${key.value} is not a number`)
+  //       return false
+  //     }
+  //   }
+  // }
   return true
 }
 
