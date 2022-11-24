@@ -2059,8 +2059,12 @@ function run() {
             }
             child_process_1.execSync(commandToRun);
             const codeCoverageOld = (JSON.parse(fs_1.default.readFileSync('coverage-summary.json').toString()));
-            validateReport(codeCoverageNew);
-            validateReport(codeCoverageOld);
+            if (!validateReport(codeCoverageNew)) {
+                console.log('not a valid code coverage report from PR branch');
+            }
+            if (!validateReport(codeCoverageOld)) {
+                console.log('not a valid code coverage report from base branch');
+            }
             const currentDirectory = child_process_1.execSync('pwd')
                 .toString()
                 .trim();
@@ -2109,19 +2113,24 @@ function run() {
     });
 }
 function validateReport(report) {
-    return __awaiter(this, void 0, void 0, function* () {
-        console.log('report');
-        console.log(report);
-        // const types = Object.values(report.total) as { total: number, covered: number, skipped: number, pct: (number | string)}[]
-        const types = Object.values(report.total);
-        for (const type of types) {
-            console.log(type);
-            console.log(isNaN(type.total));
-            console.log(isNaN(type.covered));
-            console.log(isNaN(type.skipped));
-            console.log(isNaN(type.pct));
+    console.log('report');
+    console.log(report);
+    // const types = Object.values(report.total) as { total: number, covered: number, skipped: number, pct: (number | string)}[]
+    const types = Object.values(report.total);
+    for (const type of types) {
+        console.log(type);
+        console.log(isNaN(type.total));
+        console.log(isNaN(type.covered));
+        console.log(isNaN(type.skipped));
+        console.log(isNaN(type.pct));
+        for (const value of type.values) {
+            if (isNaN(value)) {
+                console.log(`The value of ${value} is not a number`);
+                return false;
+            }
         }
-    });
+    }
+    return true;
 }
 function createOrUpdateComment(commentId, githubClient, repoOwner, repoName, messageToPost, prNumber) {
     return __awaiter(this, void 0, void 0, function* () {

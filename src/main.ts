@@ -48,8 +48,12 @@ async function run(): Promise<void> {
     const codeCoverageOld = <CoverageReport>(
       JSON.parse(fs.readFileSync('coverage-summary.json').toString())
     )
-    validateReport(codeCoverageNew)
-    validateReport(codeCoverageOld)
+    if (!validateReport(codeCoverageNew)) {
+      console.log('not a valid code coverage report from PR branch')
+    }
+    if (!validateReport(codeCoverageOld)) {
+      console.log('not a valid code coverage report from base branch')
+    }
     const currentDirectory = execSync('pwd')
       .toString()
       .trim()
@@ -145,7 +149,7 @@ async function run(): Promise<void> {
   }
 }
 
-async function validateReport(report: CoverageReport) {
+function validateReport(report: CoverageReport): boolean {
   console.log('report')
   console.log(report)
   // const types = Object.values(report.total) as { total: number, covered: number, skipped: number, pct: (number | string)}[]
@@ -158,7 +162,14 @@ async function validateReport(report: CoverageReport) {
     console.log(isNaN(type.covered))
     console.log(isNaN(type.skipped))
     console.log(isNaN(type.pct))
+    for (const value of type.values) {
+      if (isNaN(value)) {
+        console.log(`The value of ${value} is not a number`)
+        return false
+      }
+    }
   }
+  return true
 }
 
 async function createOrUpdateComment(
