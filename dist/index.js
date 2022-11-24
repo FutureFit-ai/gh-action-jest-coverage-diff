@@ -2060,13 +2060,11 @@ function run() {
             child_process_1.execSync(commandToRun);
             const codeCoverageOld = (JSON.parse(fs_1.default.readFileSync('coverage-summary.json').toString()));
             if (!validateReport(codeCoverageNew)) {
-                console.log('not a valid code coverage report from PR branch');
                 throw Error('not a valid code coverage report from PR branch');
             }
-            // if (!validateReport(codeCoverageOld)) {
-            //   console.log('not a valid code coverage report from base branch')
-            //   throw Error('not a valid code coverage report from base branch')
-            // }
+            if (!validateReport(codeCoverageOld)) {
+                throw Error('not a valid code coverage report from base branch');
+            }
             const currentDirectory = child_process_1.execSync('pwd')
                 .toString()
                 .trim();
@@ -2115,69 +2113,17 @@ function run() {
     });
 }
 function validateReport(report) {
-    console.log('report');
-    console.log(report);
-    console.log(report.total);
-    // {
-    //   total: {
-    //     lines: { total: 0, covered: 0, skipped: 0, pct: 'Unknown' },
-    //     statements: { total: 0, covered: 0, skipped: 0, pct: 'Unknown' },
-    //     functions: { total: 0, covered: 0, skipped: 0, pct: 'Unknown' },
-    //     branches: { total: 0, covered: 0, skipped: 0, pct: 'Unknown' },
-    //     branchesTrue: { total: 0, covered: 0, skipped: 0, pct: 'Unknown' }
-    //   }
-    // }
     const keys = ['lines', 'statements', 'branches', 'functions'];
     const covType = ['total', 'covered', 'skipped', 'pct'];
     keys.forEach(key => {
         covType.forEach(type => {
-            const aa = report.total;
-            console.log(isNaN(aa[key][type]));
+            const reportType = report.total;
+            console.log(isNaN(reportType[key][type]));
+            if (isNaN(reportType[key][type])) {
+                return false;
+            }
         });
     });
-    // const keys: ('lines' | 'statements' | 'branches' | 'functions')[] = <
-    //   ('lines' | 'statements' | 'branches' | 'functions')[]
-    // >Object.keys(report.total)
-    // console.log(keys)
-    // for (const key of keys) {
-    //   console.log(report.total[key])
-    //   for (const coverage in report.total[key]) {
-    //     for(const value in Object.values(report.total[key])){
-    //       console.log(value)
-    //       if(isNaN(value)){
-    //         return false
-    //       }
-    //     }
-    //   }
-    // }
-    // for (const v of Object.keys(report.total)) {
-    //   console.log(v)
-    //   console.log(report.total[v])
-    // }
-    // const types = Object.values(report.total) as { total: number, covered: number, skipped: number, pct: (number | string)}[]
-    // const types: string[] = new Array(
-    //   'lines',
-    //   'statements',
-    //   'branches',
-    //   'functions'
-    // )
-    // for (const type of types) {
-    //   console.log(type)
-    //   console.log(report['total'][type])
-    // }
-    // for (const type of Object.keys(types)) {
-    //   console.log(type)
-    //   console.log(isNaN(types[type]))
-    //   console.log(isNaN(type.covered))
-    //   console.log(isNaN(type.skipped))
-    //   console.log(isNaN(type.pct))
-    //   for (const key of type.keys) {
-    //     if (isNaN(key.value)) {
-    //       console.log(`The value of ${key.value} is not a number`)
-    //       return false
-    //     }
-    //   }
-    // }
     return true;
 }
 function createOrUpdateComment(commentId, githubClient, repoOwner, repoName, messageToPost, prNumber) {
