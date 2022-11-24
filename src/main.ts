@@ -29,6 +29,8 @@ async function run(): Promise<void> {
     const commentIdentifier = `<!-- codeCoverageDiffComment -->`
     const deltaCommentIdentifier = `<!-- codeCoverageDeltaComment -->`
     console.log('main start')
+    console.log('setting failure')
+    core.setFailed('not a valid code coverage report from PR branch')
     let totalDelta = null
     if (rawTotalDelta !== null) {
       totalDelta = Number(rawTotalDelta)
