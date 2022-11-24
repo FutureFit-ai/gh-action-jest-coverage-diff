@@ -2118,14 +2118,38 @@ function validateReport(report) {
     console.log('report');
     console.log(report);
     console.log(report.total);
-    const keys = Object.keys(report.total);
-    console.log(keys);
-    for (const key of keys) {
-        console.log(report.total[key]);
-        for (const coverage in report.total[key]) {
-            console.log(coverage);
-        }
-    }
+    // {
+    //   total: {
+    //     lines: { total: 0, covered: 0, skipped: 0, pct: 'Unknown' },
+    //     statements: { total: 0, covered: 0, skipped: 0, pct: 'Unknown' },
+    //     functions: { total: 0, covered: 0, skipped: 0, pct: 'Unknown' },
+    //     branches: { total: 0, covered: 0, skipped: 0, pct: 'Unknown' },
+    //     branchesTrue: { total: 0, covered: 0, skipped: 0, pct: 'Unknown' }
+    //   }
+    // }
+    const keys = ['lines', 'statements', 'branches', 'functions'];
+    const covType = ['total', 'covered', 'skipped', 'pct'];
+    keys.forEach(key => {
+        covType.forEach(type => {
+            const aa = report.total;
+            console.log(isNaN(aa[key][type]));
+        });
+    });
+    // const keys: ('lines' | 'statements' | 'branches' | 'functions')[] = <
+    //   ('lines' | 'statements' | 'branches' | 'functions')[]
+    // >Object.keys(report.total)
+    // console.log(keys)
+    // for (const key of keys) {
+    //   console.log(report.total[key])
+    //   for (const coverage in report.total[key]) {
+    //     for(const value in Object.values(report.total[key])){
+    //       console.log(value)
+    //       if(isNaN(value)){
+    //         return false
+    //       }
+    //     }
+    //   }
+    // }
     // for (const v of Object.keys(report.total)) {
     //   console.log(v)
     //   console.log(report.total[v])
