@@ -2060,10 +2060,10 @@ function run() {
             child_process_1.execSync(commandToRun);
             const codeCoverageOld = (JSON.parse(fs_1.default.readFileSync('coverage-summary.json').toString()));
             if (!validateReport(codeCoverageNew)) {
-                throw Error('not a valid code coverage report from PR branch');
+                core.setFailed('not a valid code coverage report from PR branch');
             }
             if (!validateReport(codeCoverageOld)) {
-                throw Error('not a valid code coverage report from base branch');
+                core.setFailed('not a valid code coverage report from base branch');
             }
             const currentDirectory = child_process_1.execSync('pwd')
                 .toString()
