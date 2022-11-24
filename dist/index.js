@@ -2112,6 +2112,11 @@ function validateReport(report) {
     return __awaiter(this, void 0, void 0, function* () {
         console.log('report');
         console.log(report);
+        const types = Object.keys(report);
+        console.log(types);
+        for (const type of types) {
+            console.log(type);
+        }
     });
 }
 function createOrUpdateComment(commentId, githubClient, repoOwner, repoName, messageToPost, prNumber) {

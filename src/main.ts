@@ -148,6 +148,11 @@ async function run(): Promise<void> {
 async function validateReport(report: CoverageReport) {
   console.log('report')
   console.log(report)
+  const types = Object.keys(report)
+  console.log(types)
+  for (const type of types) {
+    console.log(type)
+  }
 }
 
 async function createOrUpdateComment(
