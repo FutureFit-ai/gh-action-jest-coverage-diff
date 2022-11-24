@@ -52,10 +52,10 @@ async function run(): Promise<void> {
       console.log('not a valid code coverage report from PR branch')
       throw Error('not a valid code coverage report from PR branch')
     }
-    if (!validateReport(codeCoverageOld)) {
-      console.log('not a valid code coverage report from base branch')
-      throw Error('not a valid code coverage report from base branch')
-    }
+    // if (!validateReport(codeCoverageOld)) {
+    //   console.log('not a valid code coverage report from base branch')
+    //   throw Error('not a valid code coverage report from base branch')
+    // }
     const currentDirectory = execSync('pwd')
       .toString()
       .trim()
@@ -155,18 +155,21 @@ function validateReport(report: CoverageReport): boolean {
   console.log('report')
   console.log(report)
   console.log(report.total)
-  // const types = Object.values(report.total) as { total: number, covered: number, skipped: number, pct: (number | string)}[]
-  const types: string[] = new Array(
-    'lines',
-    'statements',
-    'branches',
-    'functions'
-  )
-
-  for (const type of types) {
-    console.log(type)
-    console.log(report.total)
+  for (const v in report.total) {
+    console.log(v)
   }
+  // const types = Object.values(report.total) as { total: number, covered: number, skipped: number, pct: (number | string)}[]
+  // const types: string[] = new Array(
+  //   'lines',
+  //   'statements',
+  //   'branches',
+  //   'functions'
+  // )
+
+  // for (const type of types) {
+  //   console.log(type)
+  //   console.log(report['total'][type])
+  // }
 
   // for (const type of Object.keys(types)) {
   //   console.log(type)
