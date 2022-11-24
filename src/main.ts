@@ -48,11 +48,8 @@ async function run(): Promise<void> {
     const codeCoverageOld = <CoverageReport>(
       JSON.parse(fs.readFileSync('coverage-summary.json').toString())
     )
-    console.log('main start')
-    console.log('codeCoverageNew')
-    console.log(codeCoverageNew)
-    console.log('codeCoverageOld')
-    console.log(codeCoverageOld)
+    validateReport(codeCoverageNew)
+    validateReport(codeCoverageOld)
     const currentDirectory = execSync('pwd')
       .toString()
       .trim()
@@ -146,6 +143,11 @@ async function run(): Promise<void> {
   } catch (error) {
     core.setFailed(error)
   }
+}
+
+async function validateReport(report: CoverageReport) {
+  console.log('report')
+  console.log(report)
 }
 
 async function createOrUpdateComment(

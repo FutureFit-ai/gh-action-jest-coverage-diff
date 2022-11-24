@@ -2059,11 +2059,8 @@ function run() {
             }
             child_process_1.execSync(commandToRun);
             const codeCoverageOld = (JSON.parse(fs_1.default.readFileSync('coverage-summary.json').toString()));
-            console.log('main start');
-            console.log('codeCoverageNew');
-            console.log(codeCoverageNew);
-            console.log('codeCoverageOld');
-            console.log(codeCoverageOld);
+            validateReport(codeCoverageNew);
+            validateReport(codeCoverageOld);
             const currentDirectory = child_process_1.execSync('pwd')
                 .toString()
                 .trim();
@@ -2109,6 +2106,12 @@ function run() {
         catch (error) {
             core.setFailed(error);
         }
+    });
+}
+function validateReport(report) {
+    return __awaiter(this, void 0, void 0, function* () {
+        console.log('report');
+        console.log(report);
     });
 }
 function createOrUpdateComment(commentId, githubClient, repoOwner, repoName, messageToPost, prNumber) {
@@ -6812,7 +6815,6 @@ class DiffChecker {
     checkIfTestCoverageShouldIncrease(minimum, delta) {
         const file = 'total';
         const diffCoverageData = this.diffCoverageReport[file];
-        console.log(this.diffCoverageReport);
         const keys = Object.keys(diffCoverageData);
         const keyResults = keys.map(key => {
             var _a, _b;
