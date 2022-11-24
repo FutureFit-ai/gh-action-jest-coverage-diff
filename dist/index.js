@@ -2112,10 +2112,14 @@ function validateReport(report) {
     return __awaiter(this, void 0, void 0, function* () {
         console.log('report');
         console.log(report);
-        const types = Object.keys(report);
-        console.log(types);
+        // const types = Object.values(report.total) as { total: number, covered: number, skipped: number, pct: (number | string)}[]
+        const types = Object.values(report.total);
         for (const type of types) {
             console.log(type);
+            console.log(isNaN(type.total));
+            console.log(isNaN(type.covered));
+            console.log(isNaN(type.skipped));
+            console.log(isNaN(type.pct));
         }
     });
 }
