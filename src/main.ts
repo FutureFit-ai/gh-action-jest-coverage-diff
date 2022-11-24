@@ -155,9 +155,18 @@ function validateReport(report: CoverageReport): boolean {
   console.log('report')
   console.log(report)
   // const types = Object.values(report.total) as { total: number, covered: number, skipped: number, pct: (number | string)}[]
+  const types: string[] = new Array(
+    'lines',
+    'statements',
+    'branches',
+    'functions'
+  )
 
-  for (const key of Object.keys(report.total)) {
-    console.log(key)
+  for (const type of types) {
+    console.log(report[type])
+    for (const cov of Object.keys(report[type])) {
+      console.log(cov)
+    }
   }
   // for (const type of Object.keys(types)) {
   //   console.log(type)
