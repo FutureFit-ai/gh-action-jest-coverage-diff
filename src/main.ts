@@ -7,6 +7,8 @@ import {DiffChecker} from './DiffChecker'
 import {Octokit} from '@octokit/core'
 import {PaginateInterface} from '@octokit/plugin-paginate-rest'
 import {RestEndpointMethods} from '@octokit/plugin-rest-endpoint-methods/dist-types/generated/method-types'
+import {FileCoverageData} from './Model/FileCoverageData'
+import {CoverageData} from './Model/CoverageData'
 
 async function run(): Promise<void> {
   try {
@@ -149,12 +151,19 @@ async function run(): Promise<void> {
 
 async function validateReport(report: CoverageReport): Promise<boolean> {
   console.log('validateReport')
-  const keys = ['lines', 'statements', 'branches', 'functions']
-  const covType = ['total', 'covered', 'skipped', 'pct']
+  // const keys = ['lines', 'statements', 'branches', 'functions']
+  const keys: (keyof FileCoverageData)[] = [
+    'lines',
+    'statements',
+    'branches',
+    'functions'
+  ]
+  const covType: (keyof CoverageData)[] = ['total', 'covered', 'skipped', 'pct']
   keys.forEach(key => {
     covType.forEach(type => {
-      const reportType = report.total as any
-      if (isNaN(reportType[key][type])) {
+      // const reportType = report.total as any
+      // if (isNaN(reportType[key][type])) {
+      if (isNaN(report.total[key][type])) {
         throw Error('not a valid code coverage report')
       }
     })

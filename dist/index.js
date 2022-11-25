@@ -2111,12 +2111,19 @@ function run() {
 function validateReport(report) {
     return __awaiter(this, void 0, void 0, function* () {
         console.log('validateReport');
-        const keys = ['lines', 'statements', 'branches', 'functions'];
+        // const keys = ['lines', 'statements', 'branches', 'functions']
+        const keys = [
+            'lines',
+            'statements',
+            'branches',
+            'functions'
+        ];
         const covType = ['total', 'covered', 'skipped', 'pct'];
         keys.forEach(key => {
             covType.forEach(type => {
-                const reportType = report.total;
-                if (isNaN(reportType[key][type])) {
+                // const reportType = report.total as any
+                // if (isNaN(reportType[key][type])) {
+                if (isNaN(report.total[key][type])) {
                     throw Error('not a valid code coverage report');
                 }
             });
