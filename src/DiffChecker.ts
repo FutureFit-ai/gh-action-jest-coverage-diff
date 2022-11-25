@@ -71,9 +71,7 @@ export class DiffChecker {
   checkIfTestCoverageShouldIncrease(minimum: number, delta: number): boolean {
     const file = 'total'
     const diffCoverageData = this.diffCoverageReport[file]
-    const keys: ('lines')[] = <
-      ('lines')[]
-    >Object.keys(diffCoverageData)
+    const keys: 'lines'[] = <'lines'[]>Object.keys(diffCoverageData)
     const keyResults = keys.map(key => {
       const oldPct = diffCoverageData[key].oldPct ?? 0
       const newPct = diffCoverageData[key].newPct ?? 0

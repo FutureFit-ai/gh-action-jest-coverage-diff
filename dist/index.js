@@ -2058,6 +2058,8 @@ function run() {
             }
             child_process_1.execSync(commandToRun);
             const codeCoverageOld = (JSON.parse(fs_1.default.readFileSync('coverage-summary.json').toString()));
+            yield validateReport(codeCoverageNew);
+            yield validateReport(codeCoverageOld);
             const currentDirectory = child_process_1.execSync('pwd')
                 .toString()
                 .trim();
@@ -2103,6 +2105,25 @@ function run() {
         catch (error) {
             core.setFailed(error);
         }
+    });
+}
+function validateReport(report) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const keys = [
+            'lines',
+            'statements',
+            'branches',
+            'functions'
+        ];
+        const covType = ['total', 'covered', 'skipped', 'pct'];
+        keys.forEach(key => {
+            covType.forEach(type => {
+                if (isNaN(report.total[key][type])) {
+                    throw Error('not a valid code coverage report');
+                }
+            });
+        });
+        return true;
     });
 }
 function createOrUpdateComment(commentId, githubClient, repoOwner, repoName, messageToPost, prNumber) {
@@ -6833,13 +6854,15 @@ class DiffChecker {
                 // since the file is deleted don't include in delta calculation
                 continue;
             }
-            if (diffCoverageData['lines'].oldPct !== diffCoverageData['lines'].newPct) {
-              const deltaToCompareWith = file === 'total' && totalDelta !== null ? totalDelta : delta;
-              if (-this.getPercentageDiff(diffCoverageData['lines']) > deltaToCompareWith) {
-                const percentageDiff = this.getPercentageDiff(diffCoverageData['lines']);
-                core.info(`percentage Diff: ${percentageDiff} is greater than delta for ${file}`);
-                return true;
-              }
+            for (const key of keys) {
+                if (diffCoverageData[key].oldPct !== diffCoverageData[key].newPct) {
+                    const deltaToCompareWith = file === 'total' && totalDelta !== null ? totalDelta : delta;
+                    if (-this.getPercentageDiff(diffCoverageData[key]) > deltaToCompareWith) {
+                        const percentageDiff = this.getPercentageDiff(diffCoverageData[key]);
+                        core.info(`percentage Diff: ${percentageDiff} is greater than delta for ${file}`);
+                        return true;
+                    }
+                }
             }
         }
         return false;

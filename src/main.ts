@@ -7,6 +7,8 @@ import {DiffChecker} from './DiffChecker'
 import {Octokit} from '@octokit/core'
 import {PaginateInterface} from '@octokit/plugin-paginate-rest'
 import {RestEndpointMethods} from '@octokit/plugin-rest-endpoint-methods/dist-types/generated/method-types'
+import {FileCoverageData} from './Model/FileCoverageData'
+import {CoverageData} from './Model/CoverageData'
 
 async function run(): Promise<void> {
   try {
@@ -47,6 +49,10 @@ async function run(): Promise<void> {
     const codeCoverageOld = <CoverageReport>(
       JSON.parse(fs.readFileSync('coverage-summary.json').toString())
     )
+
+    await validateReport(codeCoverageNew)
+    await validateReport(codeCoverageOld)
+
     const currentDirectory = execSync('pwd')
       .toString()
       .trim()
@@ -140,6 +146,24 @@ async function run(): Promise<void> {
   } catch (error) {
     core.setFailed(error)
   }
+}
+
+async function validateReport(report: CoverageReport): Promise<boolean> {
+  const keys: (keyof FileCoverageData)[] = [
+    'lines',
+    'statements',
+    'branches',
+    'functions'
+  ]
+  const covType: (keyof CoverageData)[] = ['total', 'covered', 'skipped', 'pct']
+  keys.forEach(key => {
+    covType.forEach(type => {
+      if (isNaN(report.total[key][type])) {
+        throw Error('not a valid code coverage report')
+      }
+    })
+  })
+  return true
 }
 
 async function createOrUpdateComment(
