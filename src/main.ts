@@ -30,7 +30,6 @@ async function run(): Promise<void> {
     const useSameComment = JSON.parse(core.getInput('useSameComment'))
     const commentIdentifier = `<!-- codeCoverageDiffComment -->`
     const deltaCommentIdentifier = `<!-- codeCoverageDeltaComment -->`
-    console.log('start')
     let totalDelta = null
     if (rawTotalDelta !== null) {
       totalDelta = Number(rawTotalDelta)
@@ -150,8 +149,6 @@ async function run(): Promise<void> {
 }
 
 async function validateReport(report: CoverageReport): Promise<boolean> {
-  console.log('validateReport')
-  // const keys = ['lines', 'statements', 'branches', 'functions']
   const keys: (keyof FileCoverageData)[] = [
     'lines',
     'statements',
@@ -161,8 +158,6 @@ async function validateReport(report: CoverageReport): Promise<boolean> {
   const covType: (keyof CoverageData)[] = ['total', 'covered', 'skipped', 'pct']
   keys.forEach(key => {
     covType.forEach(type => {
-      // const reportType = report.total as any
-      // if (isNaN(reportType[key][type])) {
       if (isNaN(report.total[key][type])) {
         throw Error('not a valid code coverage report')
       }
