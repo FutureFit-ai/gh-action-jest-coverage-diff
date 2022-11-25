@@ -2043,8 +2043,7 @@ function run() {
             const useSameComment = JSON.parse(core.getInput('useSameComment'));
             const commentIdentifier = `<!-- codeCoverageDiffComment -->`;
             const deltaCommentIdentifier = `<!-- codeCoverageDeltaComment -->`;
-            console.log('setting failure');
-            throw Error('Test failure');
+            console.log('start');
             let totalDelta = null;
             if (rawTotalDelta !== null) {
                 totalDelta = Number(rawTotalDelta);
@@ -2060,14 +2059,8 @@ function run() {
             }
             child_process_1.execSync(commandToRun);
             const codeCoverageOld = (JSON.parse(fs_1.default.readFileSync('coverage-summary.json').toString()));
-            if (!validateReport(codeCoverageNew)) {
-                console.log('setting failure from PR');
-                throw Error('not a valid code coverage report from PR branch');
-            }
-            if (!validateReport(codeCoverageOld)) {
-                console.log('setting failure from main');
-                throw Error('not a valid code coverage report from base branch');
-            }
+            yield validateReport(codeCoverageNew);
+            yield validateReport(codeCoverageOld);
             const currentDirectory = child_process_1.execSync('pwd')
                 .toString()
                 .trim();
@@ -2117,13 +2110,14 @@ function run() {
 }
 function validateReport(report) {
     return __awaiter(this, void 0, void 0, function* () {
+        console.log('validateReport');
         const keys = ['lines', 'statements', 'branches', 'functions'];
         const covType = ['total', 'covered', 'skipped', 'pct'];
         keys.forEach(key => {
             covType.forEach(type => {
                 const reportType = report.total;
                 if (isNaN(reportType[key][type])) {
-                    return false;
+                    throw Error('not a valid code coverage report');
                 }
             });
         });
