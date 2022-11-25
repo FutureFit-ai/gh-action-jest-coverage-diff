@@ -151,7 +151,7 @@ async function run(): Promise<void> {
   }
 }
 
-function validateReport(report: CoverageReport): boolean {
+async function validateReport(report: CoverageReport): Promise<boolean> {
   const keys = ['lines', 'statements', 'branches', 'functions']
   const covType = ['total', 'covered', 'skipped', 'pct']
   keys.forEach(key => {

@@ -2115,18 +2115,20 @@ function run() {
     });
 }
 function validateReport(report) {
-    const keys = ['lines', 'statements', 'branches', 'functions'];
-    const covType = ['total', 'covered', 'skipped', 'pct'];
-    keys.forEach(key => {
-        covType.forEach(type => {
-            const reportType = report.total;
-            console.log(isNaN(reportType[key][type]));
-            if (isNaN(reportType[key][type])) {
-                return false;
-            }
+    return __awaiter(this, void 0, void 0, function* () {
+        const keys = ['lines', 'statements', 'branches', 'functions'];
+        const covType = ['total', 'covered', 'skipped', 'pct'];
+        keys.forEach(key => {
+            covType.forEach(type => {
+                const reportType = report.total;
+                console.log(isNaN(reportType[key][type]));
+                if (isNaN(reportType[key][type])) {
+                    return false;
+                }
+            });
         });
+        return true;
     });
-    return true;
 }
 function createOrUpdateComment(commentId, githubClient, repoOwner, repoName, messageToPost, prNumber) {
     return __awaiter(this, void 0, void 0, function* () {
