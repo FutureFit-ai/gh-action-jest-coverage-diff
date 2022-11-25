@@ -28,9 +28,6 @@ async function run(): Promise<void> {
     const useSameComment = JSON.parse(core.getInput('useSameComment'))
     const commentIdentifier = `<!-- codeCoverageDiffComment -->`
     const deltaCommentIdentifier = `<!-- codeCoverageDeltaComment -->`
-    console.log('main start')
-    console.log('setting failure')
-    core.setFailed('not a valid code coverage report from PR branch')
     let totalDelta = null
     if (rawTotalDelta !== null) {
       totalDelta = Number(rawTotalDelta)
@@ -50,10 +47,12 @@ async function run(): Promise<void> {
     const codeCoverageOld = <CoverageReport>(
       JSON.parse(fs.readFileSync('coverage-summary.json').toString())
     )
-    if (!validateReport(codeCoverageNew)) {
+    if (await !validateReport(codeCoverageNew)) {
+      console.log('setting failure from PR')
       throw Error('not a valid code coverage report from PR branch')
     }
-    if (!validateReport(codeCoverageOld)) {
+    if (await !validateReport(codeCoverageOld)) {
+      console.log('setting failure from main')
       throw Error('not a valid code coverage report from base branch')
     }
     const currentDirectory = execSync('pwd')
@@ -157,7 +156,6 @@ async function validateReport(report: CoverageReport): Promise<boolean> {
   keys.forEach(key => {
     covType.forEach(type => {
       const reportType = report.total as any
-      console.log(isNaN(reportType[key][type]))
       if (isNaN(reportType[key][type])) {
         return false
       }
