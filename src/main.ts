@@ -51,10 +51,10 @@ async function run(): Promise<void> {
       JSON.parse(fs.readFileSync('coverage-summary.json').toString())
     )
     if (!validateReport(codeCoverageNew)) {
-      core.setFailed('not a valid code coverage report from PR branch')
+      throw Error('not a valid code coverage report from PR branch')
     }
     if (!validateReport(codeCoverageOld)) {
-      core.setFailed('not a valid code coverage report from base branch')
+      throw Error('not a valid code coverage report from base branch')
     }
     const currentDirectory = execSync('pwd')
       .toString()
