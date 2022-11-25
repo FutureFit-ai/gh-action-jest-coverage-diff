@@ -47,11 +47,11 @@ async function run(): Promise<void> {
     const codeCoverageOld = <CoverageReport>(
       JSON.parse(fs.readFileSync('coverage-summary.json').toString())
     )
-    if (await !validateReport(codeCoverageNew)) {
+    if (!validateReport(codeCoverageNew)) {
       console.log('setting failure from PR')
       throw Error('not a valid code coverage report from PR branch')
     }
-    if (await !validateReport(codeCoverageOld)) {
+    if (!validateReport(codeCoverageOld)) {
       console.log('setting failure from main')
       throw Error('not a valid code coverage report from base branch')
     }

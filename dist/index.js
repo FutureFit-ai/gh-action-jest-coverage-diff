@@ -2058,11 +2058,11 @@ function run() {
             }
             child_process_1.execSync(commandToRun);
             const codeCoverageOld = (JSON.parse(fs_1.default.readFileSync('coverage-summary.json').toString()));
-            if (yield !validateReport(codeCoverageNew)) {
+            if (!validateReport(codeCoverageNew)) {
                 console.log('setting failure from PR');
                 throw Error('not a valid code coverage report from PR branch');
             }
-            if (yield !validateReport(codeCoverageOld)) {
+            if (!validateReport(codeCoverageOld)) {
                 console.log('setting failure from main');
                 throw Error('not a valid code coverage report from base branch');
             }
