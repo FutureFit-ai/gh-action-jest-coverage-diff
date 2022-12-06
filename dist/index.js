@@ -6826,15 +6826,23 @@ class DiffChecker {
         }
         return returnStrings;
     }
+    // {
+    //   branches: { newPct: 25.34, oldPct: 25.4 },
+    //   statements: { newPct: 55.91, oldPct: 55.09 },
+    //   lines: { newPct: 53.39, oldPct: 52.66 },
+    //   functions: { newPct: 27.12, oldPct: 26.04 }
+    // }
     checkIfTestCoverageShouldIncrease(minimum, delta) {
         console.log('checkIfTestCoverageShouldIncrease - start');
+        console.log(`checkIfTestCoverageShouldIncrease minimum: ${minimum}`);
         const file = 'total';
         const diffCoverageData = this.diffCoverageReport[file];
         console.log(diffCoverageData);
         const keys = Object.keys(diffCoverageData);
+        console.log(keys);
+        console.log(diffCoverageData);
         const keyResults = keys.map(key => {
             var _a, _b;
-            console.log(diffCoverageData[key]);
             const oldPct = (_a = diffCoverageData[key].oldPct) !== null && _a !== void 0 ? _a : 0;
             const newPct = (_b = diffCoverageData[key].newPct) !== null && _b !== void 0 ? _b : 0;
             if (newPct < minimum) {
@@ -6845,9 +6853,11 @@ class DiffChecker {
             }
             return false;
         });
+        console.log(keyResults);
         return keyResults.every(v => v);
     }
     checkIfTestCoverageFallsBelowDelta(delta, totalDelta) {
+        console.log('checkIfTestCoverageFallsBelowDelta - START');
         const files = Object.keys(this.diffCoverageReport);
         for (const file of files) {
             const diffCoverageData = this.diffCoverageReport[file];
@@ -6913,6 +6923,7 @@ class DiffChecker {
         // get diff
         const diff = Number(diffData.newPct) - Number(diffData.oldPct);
         // round off the diff to 2 decimal places
+        console.log(`getPercentageDiff: ${Math.round((diff + Number.EPSILON) * 100) / 100}`);
         return Math.round((diff + Number.EPSILON) * 100) / 100;
     }
 }
