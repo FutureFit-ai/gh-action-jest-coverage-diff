@@ -6832,11 +6832,11 @@ class DiffChecker {
         const diffCoverageData = this.diffCoverageReport['total'];
         const key = 'lines';
         const newPct = (_a = diffCoverageData[key].newPct) !== null && _a !== void 0 ? _a : 0;
-        if (newPct > minimum) {
+        if (newPct >= minimum) {
             return false;
         }
         const diff = this.getPercentageDiff(diffCoverageData[key]);
-        return !(diff > delta);
+        return !(diff >= delta);
     }
     checkIfTestCoverageFallsBelowDelta(delta, totalDelta) {
         const files = Object.keys(this.diffCoverageReport);

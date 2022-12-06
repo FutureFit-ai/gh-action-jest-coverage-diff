@@ -72,11 +72,11 @@ export class DiffChecker {
     const diffCoverageData = this.diffCoverageReport['total']
     const key = 'lines'
     const newPct = diffCoverageData[key].newPct ?? 0
-    if (newPct > minimum) {
+    if (newPct >= minimum) {
       return false
     }
     const diff = this.getPercentageDiff(diffCoverageData[key])
-    return !(diff > delta)
+    return !(diff >= delta)
   }
 
   checkIfTestCoverageFallsBelowDelta(
