@@ -85,10 +85,10 @@ export class DiffChecker {
     console.log(keys)
     console.log(diffCoverageData)
     const keyResults = keys.map(key => {
-      const oldPct = diffCoverageData[key].oldPct ?? 0
-      const newPct = diffCoverageData[key].newPct ?? 0
+      const oldPct = diffCoverageData['lines'].oldPct ?? 0
+      const newPct = diffCoverageData['lines'].newPct ?? 0
       if (newPct < minimum) {
-        const diff = this.getPercentageDiff(diffCoverageData[key])
+        const diff = this.getPercentageDiff(diffCoverageData['lines'])
         const minDelta = Math.min(delta, minimum - oldPct)
         const res = diff < minDelta
         return res

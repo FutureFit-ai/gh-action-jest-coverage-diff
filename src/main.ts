@@ -122,6 +122,7 @@ async function run(): Promise<void> {
     }
     // check if the test coverage is falling below delta/tolerance.
     else if (
+      !minIncrease &&
       diffChecker.checkIfTestCoverageFallsBelowDelta(delta, totalDelta)
     ) {
       if (useSameComment) {

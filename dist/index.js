@@ -2094,7 +2094,8 @@ function run() {
                 throw Error(messageToPost);
             }
             // check if the test coverage is falling below delta/tolerance.
-            else if (diffChecker.checkIfTestCoverageFallsBelowDelta(delta, totalDelta)) {
+            else if (!minIncrease &&
+                diffChecker.checkIfTestCoverageFallsBelowDelta(delta, totalDelta)) {
                 if (useSameComment) {
                     commentId = yield findComment(githubClient, repoName, repoOwner, prNumber, deltaCommentIdentifier);
                 }
@@ -6843,10 +6844,10 @@ class DiffChecker {
         console.log(diffCoverageData);
         const keyResults = keys.map(key => {
             var _a, _b;
-            const oldPct = (_a = diffCoverageData[key].oldPct) !== null && _a !== void 0 ? _a : 0;
-            const newPct = (_b = diffCoverageData[key].newPct) !== null && _b !== void 0 ? _b : 0;
+            const oldPct = (_a = diffCoverageData['lines'].oldPct) !== null && _a !== void 0 ? _a : 0;
+            const newPct = (_b = diffCoverageData['lines'].newPct) !== null && _b !== void 0 ? _b : 0;
             if (newPct < minimum) {
-                const diff = this.getPercentageDiff(diffCoverageData[key]);
+                const diff = this.getPercentageDiff(diffCoverageData['lines']);
                 const minDelta = Math.min(delta, minimum - oldPct);
                 const res = diff < minDelta;
                 return res;
