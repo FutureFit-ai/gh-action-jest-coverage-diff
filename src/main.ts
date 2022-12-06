@@ -31,7 +31,6 @@ async function run(): Promise<void> {
     const commentIdentifier = `<!-- codeCoverageDiffComment -->`
     const deltaCommentIdentifier = `<!-- codeCoverageDeltaComment -->`
     let totalDelta = null
-    console.log('START')
     if (rawTotalDelta !== null) {
       totalDelta = Number(rawTotalDelta)
     }
@@ -67,7 +66,6 @@ async function run(): Promise<void> {
       !fullCoverage,
       `${currentDirectory}/`
     )
-    console.log(coverageDetails)
     if (coverageDetails.length === 0) {
       messageToPost =
         'No changes to code coverage between the base branch and the head branch'

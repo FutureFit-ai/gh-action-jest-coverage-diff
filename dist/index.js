@@ -2044,7 +2044,6 @@ function run() {
             const commentIdentifier = `<!-- codeCoverageDiffComment -->`;
             const deltaCommentIdentifier = `<!-- codeCoverageDeltaComment -->`;
             let totalDelta = null;
-            console.log('START');
             if (rawTotalDelta !== null) {
                 totalDelta = Number(rawTotalDelta);
             }
@@ -2068,7 +2067,6 @@ function run() {
             let messageToPost = `## Test coverage results :test_tube: \n
     Code coverage diff between base branch:${branchNameBase} and head branch: ${branchNameHead} \n\n`;
             const coverageDetails = diffChecker.getCoverageDetails(!fullCoverage, `${currentDirectory}/`);
-            console.log(coverageDetails);
             if (coverageDetails.length === 0) {
                 messageToPost =
                     'No changes to code coverage between the base branch and the head branch';
