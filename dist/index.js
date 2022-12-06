@@ -2044,6 +2044,7 @@ function run() {
             const commentIdentifier = `<!-- codeCoverageDiffComment -->`;
             const deltaCommentIdentifier = `<!-- codeCoverageDeltaComment -->`;
             let totalDelta = null;
+            console.log('START');
             if (rawTotalDelta !== null) {
                 totalDelta = Number(rawTotalDelta);
             }
@@ -2067,6 +2068,7 @@ function run() {
             let messageToPost = `## Test coverage results :test_tube: \n
     Code coverage diff between base branch:${branchNameBase} and head branch: ${branchNameHead} \n\n`;
             const coverageDetails = diffChecker.getCoverageDetails(!fullCoverage, `${currentDirectory}/`);
+            console.log(coverageDetails);
             if (coverageDetails.length === 0) {
                 messageToPost =
                     'No changes to code coverage between the base branch and the head branch';
@@ -2092,7 +2094,8 @@ function run() {
                 throw Error(messageToPost);
             }
             // check if the test coverage is falling below delta/tolerance.
-            else if (diffChecker.checkIfTestCoverageFallsBelowDelta(delta, totalDelta)) {
+            else if (!minIncrease &&
+                diffChecker.checkIfTestCoverageFallsBelowDelta(delta, totalDelta)) {
                 if (useSameComment) {
                     commentId = yield findComment(githubClient, repoName, repoOwner, prNumber, deltaCommentIdentifier);
                 }
@@ -6825,22 +6828,15 @@ class DiffChecker {
         return returnStrings;
     }
     checkIfTestCoverageShouldIncrease(minimum, delta) {
-        const file = 'total';
-        const diffCoverageData = this.diffCoverageReport[file];
-        const keys = Object.keys(diffCoverageData);
-        const keyResults = keys.map(key => {
-            var _a, _b;
-            const oldPct = (_a = diffCoverageData[key].oldPct) !== null && _a !== void 0 ? _a : 0;
-            const newPct = (_b = diffCoverageData[key].newPct) !== null && _b !== void 0 ? _b : 0;
-            if (newPct < minimum) {
-                const diff = this.getPercentageDiff(diffCoverageData[key]);
-                const minDelta = Math.min(delta, minimum - oldPct);
-                const res = diff < minDelta;
-                return res;
-            }
+        var _a;
+        const diffCoverageData = this.diffCoverageReport['total'];
+        const key = 'lines';
+        const newPct = (_a = diffCoverageData[key].newPct) !== null && _a !== void 0 ? _a : 0;
+        if (newPct >= minimum) {
             return false;
-        });
-        return keyResults.every(v => v);
+        }
+        const diff = this.getPercentageDiff(diffCoverageData[key]);
+        return !(diff >= delta);
     }
     checkIfTestCoverageFallsBelowDelta(delta, totalDelta) {
         const files = Object.keys(this.diffCoverageReport);
