@@ -1,5 +1,7 @@
 # Require Increase in % of Code Coverage
 
+v1
+
 This action has been modified in order to provide a behavior that is, demanding a increase in % until we reach the minimun % for the given repository.
 
 Configuring the parameters:
