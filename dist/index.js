@@ -6827,11 +6827,14 @@ class DiffChecker {
         return returnStrings;
     }
     checkIfTestCoverageShouldIncrease(minimum, delta) {
+        console.log('checkIfTestCoverageShouldIncrease - start');
         const file = 'total';
         const diffCoverageData = this.diffCoverageReport[file];
+        console.log(diffCoverageData);
         const keys = Object.keys(diffCoverageData);
         const keyResults = keys.map(key => {
             var _a, _b;
+            console.log(diffCoverageData[key]);
             const oldPct = (_a = diffCoverageData[key].oldPct) !== null && _a !== void 0 ? _a : 0;
             const newPct = (_b = diffCoverageData[key].newPct) !== null && _b !== void 0 ? _b : 0;
             if (newPct < minimum) {
