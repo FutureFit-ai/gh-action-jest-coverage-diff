@@ -6827,49 +6827,18 @@ class DiffChecker {
         }
         return returnStrings;
     }
-    // {
-    //   branches: { newPct: 25.34, oldPct: 25.4 },
-    //   statements: { newPct: 55.91, oldPct: 55.09 },
-    //   lines: { newPct: 53.39, oldPct: 52.66 },
-    //   functions: { newPct: 27.12, oldPct: 26.04 }
-    // }
     checkIfTestCoverageShouldIncrease(minimum, delta) {
-        console.log('checkIfTestCoverageShouldIncrease - start');
-        console.log(`checkIfTestCoverageShouldIncrease minimum: ${minimum}`);
-        console.log(`checkIfTestCoverageShouldIncrease delta: ${delta}`);
-        const file = 'total';
-        const diffCoverageData = this.diffCoverageReport[file];
-        console.log(diffCoverageData);
-        // {
-        //   branches: { newPct: 25.34, oldPct: 25.4 },
-        //   statements: { newPct: 55.91, oldPct: 55.09 },
-        //   lines: { newPct: 53.39, oldPct: 52.66 },
-        //   functions: { newPct: 27.12, oldPct: 26.04 }
-        // }
-        const diff = this.getPercentageDiff(diffCoverageData['lines']);
-        console.log(`diff: ${diff}`);
-        const res = diff > delta;
-        console.log(`res: ${res}`);
+        var _a;
+        const diffCoverageData = this.diffCoverageReport['total'];
+        const key = 'lines';
+        const newPct = (_a = diffCoverageData[key].newPct) !== null && _a !== void 0 ? _a : 0;
+        if (newPct > minimum) {
+            return false;
+        }
+        const diff = this.getPercentageDiff(diffCoverageData[key]);
         return !(diff > delta);
-        // const keys: 'lines'[] = <'lines'[]>Object.keys(diffCoverageData)
-        // console.log(keys)
-        // console.log(diffCoverageData)
-        // const keyResults = keys.map(key => {
-        //   const oldPct = diffCoverageData['lines'].oldPct ?? 0
-        //   const newPct = diffCoverageData['lines'].newPct ?? 0
-        //   if (newPct < minimum) {
-        //     const diff = this.getPercentageDiff(diffCoverageData['lines'])
-        //     const minDelta = Math.min(delta, minimum - oldPct)
-        //     const res = diff < minDelta
-        //     return res
-        //   }
-        //   return false
-        // })
-        // console.log(keyResults)
-        // return keyResults.every(v => v)
     }
     checkIfTestCoverageFallsBelowDelta(delta, totalDelta) {
-        console.log('checkIfTestCoverageFallsBelowDelta - START');
         const files = Object.keys(this.diffCoverageReport);
         for (const file of files) {
             const diffCoverageData = this.diffCoverageReport[file];
@@ -6935,7 +6904,6 @@ class DiffChecker {
         // get diff
         const diff = Number(diffData.newPct) - Number(diffData.oldPct);
         // round off the diff to 2 decimal places
-        console.log(`getPercentageDiff: ${Math.round((diff + Number.EPSILON) * 100) / 100}`);
         return Math.round((diff + Number.EPSILON) * 100) / 100;
     }
 }
