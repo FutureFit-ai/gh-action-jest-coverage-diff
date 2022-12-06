@@ -6847,7 +6847,10 @@ class DiffChecker {
         //   functions: { newPct: 27.12, oldPct: 26.04 }
         // }
         const diff = this.getPercentageDiff(diffCoverageData['lines']);
-        return !(diff > minimum);
+        console.log(`diff: ${diff}`);
+        const res = diff > minimum;
+        console.log(`res: ${res}`);
+        return !res;
         // const keys: 'lines'[] = <'lines'[]>Object.keys(diffCoverageData)
         // console.log(keys)
         // console.log(diffCoverageData)
