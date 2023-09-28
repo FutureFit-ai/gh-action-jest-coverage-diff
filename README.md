@@ -1,3 +1,11 @@
+This is used in legacy testing gates.  Still in use by some repos:
+- [features-service](https://github.com/FutureFit-ai/features-service)
+- [partners-service](https://github.com/FutureFit-ai/partners-service)
+- [job-service](https://github.com/FutureFit-ai/job-service)
+- [localization-service](https://github.com/FutureFit-ai/localization-service)
+
+Once these gates are removed (replaced with Sonar), this repo can be archived.
+
 # Require Increase in % of Code Coverage
 
 This action has been modified in order to provide a behavior that is, demanding a increase in % until we reach the minimun % for the given repository.
